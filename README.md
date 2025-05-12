@@ -40,7 +40,7 @@ Open Movie Database (OMDb) API
 
 ## Cinelytics source
 
-### 🎞️ TMDb API 
+### 🎞TMDb API 
 
 #### `movieMetadata`
 | Column       | Type     | Description                    |
@@ -72,7 +72,7 @@ Open Movie Database (OMDb) API
 
 
 
-### 🧾 OMDb API
+###  OMDb API
 
 #### `omdbData`
 | Column     | Type     | Description               |
