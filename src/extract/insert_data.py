@@ -1,4 +1,3 @@
-# src/insert_data.py
 
 import csv
 from src.extract.db_config import get_connection

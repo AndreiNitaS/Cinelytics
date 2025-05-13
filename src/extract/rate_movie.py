@@ -63,4 +63,4 @@ conn.commit()
 crs.close()
 conn.close()
 
-print(" Your rating has been save!")
+print("Your rating has been saved!")
