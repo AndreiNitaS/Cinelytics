@@ -3,7 +3,10 @@ from dotenv import load_dotenv, find_dotenv
 import psycopg2
 
 load_dotenv(find_dotenv())
-
+# This function establishes a connection to the PostgreSQL database using the credentials
+# stored in environment variables. It returns a connection object that can be used to interact
+# with the database.
+ 
 def get_connection():
     return psycopg2.connect(
         host     = os.getenv("DB_HOST"),

@@ -1,15 +1,17 @@
 from db_config import get_connection
 
+#This script creates the raw tables in the PostgreSQL database.
+
 def create_tables():
     commands = [
-        "CREATE SCHEMA IF NOT EXISTS raw;",
         """
         CREATE TABLE IF NOT EXISTS raw.moviemetadata (
             movieid      INT PRIMARY KEY,
             title        VARCHAR,
             genre        VARCHAR,
             releaseyear  INT,
-            tmdbvotes    INT
+            tmdbvotes    INT,
+            vote_average   NUMERIC(3, 1)
         );
         """,
         """

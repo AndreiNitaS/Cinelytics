@@ -1,11 +1,12 @@
-movieId,title,genre,releaseYear,tmdbVotes
-1,The Shawshank Redemption,Drama,1994,25000
-2,The Godfather,Crime,1972,20000
-3,The Dark Knight,Action,2008,23000
-4,Pulp Fiction,Crime,1994,19000
-5,Forrest Gump,Drama,1994,21000
-6,Inception,Science Fiction,2010,24000
-7,Fight Club,Drama,1999,18000
-8,The Matrix,Science Fiction,1999,22000
-9,Interstellar,Science Fiction,2014,26000
-10,The Silence of the Lambs,Thriller,1991,17000
+movieId,title,genre,releaseYear,tmdbVotes,vote_average
+1,The Shawshank Redemption,Drama,1994,25000,9.3
+2,The Godfather,Crime,1972,20000,9.2
+3,The Dark Knight,Action,2008,23000,9.0
+4,Pulp Fiction,Crime,1994,19000,8.9
+5,Forrest Gump,Drama,1994,21000,8.8
+6,Inception,Science Fiction,2010,24000,8.7
+7,Fight Club,Drama,1999,18000,8.6
+8,The Matrix,Science Fiction,1999,22000,8.5
+9,Interstellar,Science Fiction,2014,26000,8.4
+10,The Silence of the Lambs,Thriller,1991,17000,8.3
+999,Test Movie,Drama,2023,1500,7.8

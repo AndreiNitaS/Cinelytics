@@ -3,6 +3,9 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../')))
 from src.extract.db_config import get_connection
 
+
+# This script populates the coolTable_movie_ratings table in the PostgreSQL database.
+
 def populate_coolTable_movie_ratings():
     conn = get_connection()
     crs = conn.cursor()

@@ -6,6 +6,9 @@ from faker import Faker
 from db_config import get_connection
 from dotenv import load_dotenv
 
+# This script allows a user to rate a movie and stores the rating in a PostgreSQL database.
+# It uses the TMDb API to search for the movie and fetch its metadata.
+
 genre_map = {
     28: "Action", 12: "Adventure", 16: "Animation",
     35: "Comedy", 80: "Crime", 99: "Documentary",
@@ -47,14 +50,16 @@ def rate_movie(movie_title, your_rating):
     crs = conn.cursor()
 
     crs.execute(
-        "INSERT INTO raw.moviemetadata(movieid, title, genre, releaseyear, tmdbvotes) "
-        "VALUES (%s,%s,%s,%s,%s) ON CONFLICT (movieid) DO NOTHING",
+        "INSERT INTO raw.moviemetadata(movieid, title, genre, releaseyear, tmdbvotes, vote_average) "
+        "VALUES (%s, %s, %s, %s, %s, %s) ON CONFLICT (movieid) DO NOTHING",
         (
             tmdb_id,
             film["title"],
             genre_map.get(film["genre_ids"][0], "Unknown") if film.get("genre_ids") else "Unknown",
             int(film["release_date"][:4]) if film.get("release_date") else None,
-            film["vote_count"]
+            film["vote_count"],
+            film["vote_average"]
+
         )
     )
 
