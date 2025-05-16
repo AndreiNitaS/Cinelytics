@@ -1,8 +1,15 @@
 
 import csv
-from src.extract.db_config import get_connection
 
-def insert_movie_metadata(path="data/movie_metadata.csv"):
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
+from db_config import get_connection
+
+def insert_movie_metadata(path=None):
+    if path is None:
+        path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "data", "movie_metadata.csv"))
     conn = get_connection()
     crs  = conn.cursor()
     with open(path, newline="", encoding="utf-8") as f:
@@ -27,7 +34,9 @@ def insert_movie_metadata(path="data/movie_metadata.csv"):
     crs.close()
     conn.close()
 
-def insert_user_ratings(path="data/user_ratings.csv"):
+def insert_user_ratings(path=None):
+    if path is None:
+        path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "data", "user_ratings.csv"))
     conn = get_connection()
     crs  = conn.cursor()
     with open(path, newline="", encoding="utf-8") as f:
@@ -36,7 +45,7 @@ def insert_user_ratings(path="data/user_ratings.csv"):
             crs.execute(
                 """
                 INSERT INTO raw.userratings
-                  (userid, movieid, rating, timestamp)
+                  (userid, movieid, rating, rating_ts)
                 VALUES (%s, %s, %s, %s)
                 ON CONFLICT (userid, movieid) DO NOTHING
                 """,

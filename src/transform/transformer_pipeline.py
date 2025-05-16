@@ -1,5 +1,11 @@
 import psycopg2
-from src.extract.db_config import get_connection
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+
+
+from src.extract.db_config import get_connection    
 
 
 def read_sql(file_path: str) -> str:
@@ -20,8 +26,9 @@ def execute_query(sql: str) -> None:
 
 if __name__ == "__main__":
     query_paths = [
-        "tables/staging/coolTable_movie_ratings.sql",
-    ]
+    os.path.join(BASE_DIR, "tables", "staging", "coolTable_movie_ratings.sql")
+]
+
 
     for path in query_paths:
         sql_query = read_sql(path)

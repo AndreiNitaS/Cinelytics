@@ -1,7 +1,7 @@
 import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../')))
-from db_config import get_connection
+from src.extract.db_config import get_connection
 
 def populate_coolTable_movie_ratings():
     conn = get_connection()
@@ -30,7 +30,9 @@ def populate_coolTable_movie_ratings():
     conn.commit()
     crs.close()
     conn.close()
-    print("coolTable_movie_ratings has been populated.")
+    #print("coolTable_movie_ratings has been populated.") - this is only for testing purposes
 
 if __name__ == "__main__":
     populate_coolTable_movie_ratings()
+
+    

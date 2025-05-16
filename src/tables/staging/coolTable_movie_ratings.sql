@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS staged.coolTable_movie_ratings (
+CREATE TABLE IF NOT EXISTS staging.coolTable_movie_ratings (
     movieid         INT PRIMARY KEY,
     title           VARCHAR,
     genre           VARCHAR,
