@@ -2,7 +2,7 @@ import os
 import sys
 import psycopg2
 
-# Adaugă calea pentru importul conexiunii DB
+# This script populates the trusted.movie_reception table in the PostgreSQL database.
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "extract")))
 from db_config import get_connection
 
@@ -18,7 +18,7 @@ def execute_query(sql):
     crs.close()
     conn.close()
 
-# INSERT final fără alte dependențe
+
 SQL_INSERT = """
 INSERT INTO trusted.movie_reception (
     movieid, title, genre, avg_rating, total_ratings, tmdbvotes, tmdb_avg, category

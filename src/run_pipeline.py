@@ -17,8 +17,10 @@ def run_script(path):
     subprocess.run(["python", path])
 
 if __name__ == "__main__":
-    base_extract = os.path.join("src", "extract")
-    base_transform = os.path.join("src", "transform")
+    os.chdir(os.path.dirname(os.path.abspath(__file__)))
+
+    base_extract = os.path.join("extract")
+    base_transform = os.path.join("transform")
 
     run_script(os.path.join(base_extract, "create_tables.py"))
     run_script(os.path.join(base_extract, "insert_data.py"))
@@ -34,4 +36,5 @@ if __name__ == "__main__":
     run_script(os.path.join(base_transform, "populate_movie_reception.py"))
 
     print("Pipeline complet.")
+
 
