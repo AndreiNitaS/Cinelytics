@@ -42,25 +42,56 @@ Open Movie Database (OMDb) API
 
 ## Cinelytics source
 
-### TMDb API 
+### TMDb API  (schema: raw)
 
 #### `movieMetadata`
-| Column       | Type     | Description                    |
-|--------------|----------|--------------------------------|
-| movieId     | INT      | Movie ID                       |
-| title        | VARCHAR  | Movie title                    |
-| genre        | VARCHAR  | Primary genre                  |
-| releaseYear | INT       | Year the movie was released    |
-| tmdbVotes   | INT       | Number of votes on TMDb        |
+| Column        | Type       | Description                             |
+|---------------|------------|-----------------------------------------|
+| movieid       | INT        | Unique movie identifier                 |
+| title         | VARCHAR    | Movie title                             |
+| genre         | VARCHAR    | Primary genre                           |
+| releaseyear   | INT        | Year the movie was released             |
+| tmdbvotes     | INT        | Number of votes on TMDb                 |
+| vote_average  | NUMERIC    | Average TMDb rating (vote_average)      |
 
-### IMDB API
+### IMDB API (schema: raw)
 
 #### `imdbRatings`
-| Column       | Type     | Description             |
-|--------------|----------|-------------------------|
-| movieId     | INT      | Movie ID                |
-| imdbRating  | DECIMAL  | Avg. IMDb rating        |
-| imdbVotes   | INT      | Vote count on IMDb      |
+| Column     | Type       | Description                      |
+|------------|------------|----------------------------------|
+| movieid    | INT        | Foreign key to moviemetadata     |
+| imdbrating | NUMERIC    | IMDb average rating              |
+| imdbvotes  | INT        | Total votes on IMDb              |
+
+
+
+### `coolTable_movie_ratings` (schema: staging)
+
+| Column        | Type         | Description                                             |
+|---------------|--------------|---------------------------------------------------------|
+| movieid       | INT          | Unique movie ID (from raw.moviemetadata)               |
+| title         | VARCHAR      | Movie title                                             |
+| genre         | VARCHAR      | Genre                                                   |
+| releaseyear   | INT          | Year of release                                         |
+| tmdbvotes     | INT          | Number of votes on TMDb                                 |
+| avg_rating    | NUMERIC(3,2) | Average rating from internal users                      |
+| total_ratings | INT          | Total number of ratings from internal users             |
+
+
+
+
+### `movie_reception` (schema: trusted)
+
+| Column              | Type        | Description                                                              |
+|---------------------|-------------|--------------------------------------------------------------------------|
+| movieid             | INT         | Unique movie ID (same as in raw.moviemetadata)                           |
+| title               | VARCHAR     | Movie title                                                              |
+| genre               | VARCHAR     | Movie genre                                                              |
+| avg_rating          | NUMERIC(3,2)| Average rating from internal user ratings                                |
+| total_ratings       | INT         | Number of ratings from internal users                                    |
+| tmdbvotes           | INT         | Number of votes on TMDb                                                  |
+| tmdb_avg            | NUMERIC(3,1)| Average rating from TMDb (vote_average from raw.moviemetadata)          |
+| category            | VARCHAR     | Classification: Loved / Hated / So bad it's good / Neutral               |
 
 
 
