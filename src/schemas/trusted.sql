@@ -1,2 +1,3 @@
 CREATE SCHEMA IF NOT EXISTS trusted
   AUTHORIZATION postgres;
+

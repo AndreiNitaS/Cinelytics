@@ -17,10 +17,12 @@ Loved vs Hated Movies by Genre
 Your Ratings vs Community Average
 Friend Score Mismatches(**Warning:** We do not take responsability for the upcoming fights!)
 
+
 ## Dashboards
 Real-time list of movies gaining traction in the last 7 days
 Visual comparison between the number of movies recommended, how many were actually watched, and how users rated them afterward.
 An interactive radar chart showing how each genre performs in terms of positive vs negative user ratings
+
 
 ## KPIs
 Friend Disagreement Index
@@ -61,23 +63,7 @@ Open Movie Database (OMDb) API
 | imdbVotes   | INT      | Vote count on IMDb      |
 
 
-### TasteDive API
-
-#### `similarMovies`
-| Column           | Type     | Description                        |
-|------------------|----------|------------------------------------|
-| movieId         | INT      | Movie ID                |
-| similarId       | INT      | Similar movie ID                   |
-| similarityScore | DECIMAL  | Relevance/similarity score         |
 
 
 
-###  OMDb API
-
-#### `omdbData`
-| Column     | Type     | Description               |
-|------------|----------|---------------------------|
-| movieId   | INT      | Movie ID                  |
-| plot       | TEXT     | Movie description         |
-| director   | VARCHAR  | Director                  |
 

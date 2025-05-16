@@ -5,6 +5,19 @@ from faker import Faker
 from db_config import get_connection
 from dotenv import load_dotenv
 
+genre_map = {
+    28: "Action", 12: "Adventure", 16: "Animation",
+    35: "Comedy", 80: "Crime", 99: "Documentary",
+    18: "Drama", 10751: "Family", 14: "Fantasy", 36: "History",
+    27: "Horror", 10402: "Music",
+    9648: "Mystery", 10749: "Romance", 878: "Science Fiction",
+    10770: "TV Movie", 53: "Thriller",
+    10752: "War", 37: "Western"
+}
+
+
+
+
 load_dotenv() 
 fake = Faker()
 user_name = fake.user_name()
@@ -42,7 +55,7 @@ crs.execute(
     (
         tmdb_id,
         film["title"],
-        film["genre_ids"][0] if film["genre_ids"] else None,
+        genre_map.get(film["genre_ids"][0], "Unknown") if film.get("genre_ids") else "Unknown",
         int(film["release_date"][:4]) if film.get("release_date") else None,
         film["vote_count"]
     )

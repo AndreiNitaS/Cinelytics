@@ -20,30 +20,15 @@ def create_tables():
             rating_ts    BIGINT,
             PRIMARY KEY (userid, movieid)
         );
-        """,
-        """
-        CREATE TABLE IF NOT EXISTS raw.similarmovies (
-            movieid         INT,
-            similarid       INT,
-            similarityscore DECIMAL,
-            PRIMARY KEY (movieid, similarid)
-        );
-        """,
-        """
-        CREATE TABLE IF NOT EXISTS raw.omdbdata (
-            movieid INT PRIMARY KEY,
-            plot    TEXT,
-            director VARCHAR
-        );
         """
     ]
 
     conn = get_connection()
-    cur  = conn.cursor()
+    crs  = conn.cursor()
     for cmd in commands:
-        cur.execute(cmd)
+        crs.execute(cmd)
     conn.commit()
-    cur.close()
+    crs.close()
     conn.close()
     print("All raw tables created successfully.")
 
