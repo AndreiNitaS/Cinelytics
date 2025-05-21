@@ -10,8 +10,6 @@ import os
 ## 5. Print a message indicating that the pipeline is complete.
 
 
-import subprocess
-import os
 
 def run_script(path):
     subprocess.run(["python", path])

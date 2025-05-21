@@ -3,8 +3,12 @@ import requests
 import random
 import argparse
 from faker import Faker
-from db_config import get_connection
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+from .db_config import get_connection
 from dotenv import load_dotenv
+from .recommend_movies import recommend_similar_movies
 
 # This script allows a user to rate a movie and stores the rating in a PostgreSQL database.
 # It uses the TMDb API to search for the movie and fetch its metadata.
@@ -22,11 +26,11 @@ genre_map = {
 load_dotenv()
 fake = Faker()
 
-def rate_movie(movie_title, your_rating):
-    user_name = fake.user_name()
-    user_id = random.randint(1_000, 9_999)
-
-    print(f"👤 Your random user is: {user_name} (id={user_id})")
+def rate_movie(movie_title, your_rating, user_id=None, return_movie_id=False):
+    if user_id is None:
+        user_name = fake.user_name()
+        user_id = random.randint(1_000, 9_999)
+        print(f"👤 Your random user is: {user_name} (id={user_id})")
 
     TMDB_KEY = os.getenv("TMDB_API_KEY")
     if not TMDB_KEY:
@@ -39,7 +43,7 @@ def rate_movie(movie_title, your_rating):
 
     if not search.get("results"):
         print("Movie is not found on TMDb.")
-        exit(1)
+        return None if return_movie_id else exit(1)
 
     film = search["results"][0]
     tmdb_id = film["id"]
@@ -59,7 +63,6 @@ def rate_movie(movie_title, your_rating):
             int(film["release_date"][:4]) if film.get("release_date") else None,
             film["vote_count"],
             film["vote_average"]
-
         )
     )
 
@@ -79,6 +82,14 @@ def rate_movie(movie_title, your_rating):
     conn.close()
 
     print("Your rating has been saved!")
+
+    recommendations = recommend_similar_movies(tmdb_id, user_id)
+    print("\nBecause you liked this movie, you might also enjoy:\n")
+    for mid, title, rating in recommendations:
+        print(f" - {title} (Rating: {rating})")
+
+    if return_movie_id:
+        return tmdb_id
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
