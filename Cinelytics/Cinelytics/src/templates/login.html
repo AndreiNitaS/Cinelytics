@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+    <meta http-equiv="Pragma" content="no-cache"/>
+    <meta http-equiv="Expires" content="0"/>
+    <title>Cinelytics - Login v2.0</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@300;400;600;700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet"/>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        "aero-blue-light": "#e0f7fa",
+                        "aero-blue": "#00a8e8",
+                        "aero-blue-dark": "#0077cc",
+                        "aero-green": "#8bc34a",
+                        "glass-border": "rgba(255, 255, 255, 0.8)",
+                    },
+                    fontFamily: {
+                        "display": ["Segoe UI", "Open Sans", "sans-serif"]
+                    },
+                    borderRadius: {"xl": "1rem", "2xl": "1.5rem", "3xl": "2rem"},
+                    boxShadow: {
+                        'glass': '0 20px 50px rgba(0,0,0,0.3)',
+                        'inner-glow': 'inset 0 0 20px rgba(255, 255, 255, 0.7)',
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        body {
+            background-color: #87CEEB;
+            font-family: "Segoe UI", sans-serif;
+        }
+        .frutiger-landscape {
+            background: url('https://images.unsplash.com/photo-1533460004989-b6b54316d824?q=80&w=2070&auto=format&fit=crop') bottom center / cover no-repeat,
+                        linear-gradient(to bottom, #1E90FF 0%, #87CEEB 60%, #FFFFFF 100%);
+            background-blend-mode: normal;
+        }
+        .bubble {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(130% 130% at 30% 30%, rgba(255, 255, 255, 0.8) 10%, rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0.2) 100%);
+            box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.5),
+                        inset 10px 10px 30px rgba(255, 255, 255, 0.4),
+                        inset -10px -10px 30px rgba(255, 255, 255, 0.2),
+                        0 10px 20px rgba(0,0,0,0.1);
+            backdrop-filter: blur(1px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+        }
+        .bubble::after {
+            content: '';
+            position: absolute;
+            top: 15%;
+            left: 15%;
+            width: 25%;
+            height: 15%;
+            border-radius: 50%;
+            background: radial-gradient(ellipse at center, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0) 70%);
+            transform: rotate(-45deg);
+            filter: blur(1px);
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+        .glass-panel-v2 {
+            background: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 2px solid rgba(255, 255, 255, 0.9);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4),
+                        inset 0 0 0 1px rgba(255, 255, 255, 0.5),
+                        inset 0 1px 20px rgba(255, 255, 255, 0.5);
+            position: relative;
+        }
+        .glass-panel-v2::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 40%;
+            background: linear-gradient(180deg, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0.1) 100%);
+            border-radius: 1.8rem 1.8rem 100% 100% / 1.8rem 1.8rem 20% 20%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .glossy-button-v2 {
+            background: linear-gradient(180deg, #6fdcff 0%, #30bdf2 49%, #009be5 50%, #007bbd 100%);
+            border: 1px solid #005a8d;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.8),
+                        inset 0 0 5px rgba(255, 255, 255, 0.4);
+            position: relative;
+            overflow: hidden;
+            text-shadow: 0 -1px 1px rgba(0, 50, 100, 0.5);
+        }
+        .glossy-button-v2::after {
+            content: "";
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            right: 2px;
+            height: 45%;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.2) 100%);
+            border-radius: 9999px;
+        }
+        .glossy-button-v2:hover {
+            background: linear-gradient(180deg, #8ae3ff 0%, #4dc8f5 49%, #00aef2 50%, #008cd1 100%);
+            box-shadow: 0 0 15px rgba(79, 195, 247, 0.6), 0 4px 8px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+        }
+        .input-glass-v2 {
+            background: linear-gradient(to bottom, #ffffff 0%, #f0f8ff 100%) !important;
+            border: 1px solid #a0d4fa !important;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1), 0 1px 0 rgba(255, 255, 255, 1) !important;
+            color: #1a1a1a !important;
+        }
+        .input-glass-v2:focus {
+            background: linear-gradient(to bottom, #ffffff 0%, #f0f8ff 100%) !important;
+            box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.3), inset 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+            border-color: #2196f3 !important;
+            outline: none !important;
+        }
+        .text-glow-aero {
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.9), 0 2px 4px rgba(0,0,0,0.3);
+        }
+    </style>
+</head>
+<body class="min-h-screen overflow-hidden flex items-center justify-center relative frutiger-landscape">
+
+<!-- Flash Messages -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <div class="fixed top-4 right-4 z-50 space-y-2">
+            {% for category, message in messages %}
+                <div class="glass-panel-v2 rounded-2xl px-6 py-4 shadow-lg max-w-md">
+                    <div class="flex items-center gap-3">
+                        <span class="material-icons-round text-blue-600">{{ 'check_circle' if category == 'success' else 'error' }}</span>
+                        <p class="text-sm font-semibold text-gray-800">{{ message }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endwith %}
+
+<!-- Floating Bubbles -->
+<div class="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+    <div class="bubble w-40 h-40 top-[10%] left-[10%] opacity-80 animate-float"></div>
+    <div class="bubble w-20 h-20 bottom-[20%] left-[20%] opacity-60"></div>
+    <div class="bubble w-32 h-32 top-[15%] right-[15%] opacity-70"></div>
+    <div class="bubble w-56 h-56 bottom-[5%] right-[5%] opacity-50"></div>
+    <div class="bubble w-12 h-12 top-[40%] left-[50%] opacity-40"></div>
+    <div class="absolute inset-0 bg-gradient-to-tr from-cyan-300/20 via-transparent to-white/40 mix-blend-overlay"></div>
+</div>
+
+<main class="w-full min-h-screen flex relative z-10 p-4 md:p-8 lg:p-12 items-center justify-center">
+    <div class="w-full max-w-7xl glass-panel-v2 rounded-3xl flex overflow-hidden relative" style="min-height: 700px;">
+        
+        <!-- Left Panel: Branding -->
+        <div class="hidden lg:flex lg:w-1/2 relative flex-col justify-between p-12 bg-gradient-to-br from-white/60 via-white/20 to-transparent">
+            <div class="absolute top-0 left-0 right-0 h-1/2 bg-gradient-to-b from-white/40 to-transparent pointer-events-none z-0"></div>
+            
+            <div class="relative z-10 h-full flex flex-col justify-between">
+                <div>
+                    <div class="w-16 h-16 bg-gradient-to-br from-white to-blue-50 rounded-2xl flex items-center justify-center border-2 border-white shadow-lg relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-b from-white/80 to-transparent opacity-50"></div>
+                        <span class="material-icons-round text-blue-600 text-4xl drop-shadow-md relative z-10">movie_filter</span>
+                    </div>
+                </div>
+                
+                <div class="max-w-md">
+                    <h1 class="text-5xl xl:text-6xl font-bold text-white mb-6 leading-tight tracking-tight" style="font-family: 'Segoe UI', sans-serif; text-shadow: 0 0 20px rgba(255,255,255,0.9), 0 4px 8px rgba(0,0,0,0.4);">
+                        Discover.<br/>
+                        Rate.<br/>
+                        <span class="text-[#005a8d]" style="text-shadow: 0 2px 0 rgba(255,255,255,0.9), 0 4px 8px rgba(0,0,0,0.2);">Compare.</span>
+                    </h1>
+                    <p class="text-xl text-[#004578] font-semibold leading-relaxed drop-shadow-sm bg-white/40 backdrop-blur-md p-6 rounded-2xl border border-white/60 shadow-lg">
+                        The definitive platform for cinema intelligence. Join the community tracking the pulse of the movie industry.
+                    </p>
+                    
+                    <div class="flex gap-4 mt-8">
+                        <div class="px-5 py-2.5 bg-gradient-to-b from-white to-[#f0f9ff] border border-white/80 rounded-full text-sm font-bold text-[#005a8d] shadow-md flex items-center gap-2 hover:shadow-lg transition-shadow cursor-default">
+                            <span class="material-icons-round text-green-500 text-lg">trending_up</span> Real-time Data
+                        </div>
+                        <div class="px-5 py-2.5 bg-gradient-to-b from-white to-[#f0f9ff] border border-white/80 rounded-full text-sm font-bold text-[#005a8d] shadow-md flex items-center gap-2 hover:shadow-lg transition-shadow cursor-default">
+                            <span class="material-icons-round text-blue-500 text-lg">group</span> Community
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex items-center gap-4 text-sm text-[#004578] font-bold bg-white/30 backdrop-blur-md p-4 rounded-full w-fit pr-8 border border-white/60 shadow-md">
+                    <span class="drop-shadow-sm text-base">Trusted by movie enthusiasts worldwide</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Panel: Login/Signup Forms -->
+        <div class="w-full lg:w-1/2 flex flex-col items-center justify-center p-8 lg:p-16 relative bg-white/80 backdrop-blur-xl z-20 shadow-[inset_10px_0_20px_rgba(0,0,0,0.05)]">
+            <div class="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-white/90 to-transparent pointer-events-none"></div>
+            
+            <div class="w-full max-w-sm space-y-8 relative z-10">
+                <!-- Header -->
+                <div class="text-center">
+                    <div class="inline-flex lg:hidden items-center justify-center gap-2 mb-6 bg-white/80 p-4 rounded-2xl shadow-md border-2 border-white">
+                        <span class="material-icons-round text-blue-600 text-3xl">movie_filter</span>
+                        <span class="text-2xl font-bold tracking-tight text-[#005a8d]">Cinelytics</span>
+                    </div>
+                    <h2 id="form-title" class="text-3xl lg:text-4xl font-bold drop-shadow-sm tracking-tight" style="color: #003a5f; text-shadow: 0 2px 0 rgba(255,255,255,0.9);">Welcome Back</h2>
+                    <p id="form-subtitle" class="mt-3 text-base font-semibold" style="color: #004578;">Please enter your details to sign in.</p>
+                </div>
+
+                <!-- Login Form -->
+                <form action="/login" id="login-form" class="mt-8 space-y-6" method="POST">
+                    <div class="space-y-6">
+                        <div>
+                            <label class="block text-sm font-bold text-[#005a8d] ml-1 mb-2 drop-shadow-sm" for="login-username">Username</label>
+                            <div class="relative group">
+                                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none z-10">
+                                    <span class="material-icons-round text-blue-400 text-2xl group-focus-within:text-blue-600 transition-colors drop-shadow-sm">person_outline</span>
+                                </div>
+                                <input autocomplete="username" class="input-glass-v2 appearance-none block w-full pl-12 pr-4 py-3.5 rounded-xl placeholder-gray-400 text-gray-800 focus:outline-none transition-all duration-200 ease-in-out sm:text-sm font-semibold shadow-inner" id="login-username" name="username" placeholder="Enter your username" required type="text"/>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-bold text-[#005a8d] ml-1 mb-2 drop-shadow-sm" for="login-password">Password</label>
+                            <div class="relative group">
+                                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none z-10">
+                                    <span class="material-icons-round text-blue-400 text-2xl group-focus-within:text-blue-600 transition-colors drop-shadow-sm">lock_open</span>
+                                </div>
+                                <input autocomplete="current-password" class="input-glass-v2 appearance-none block w-full pl-12 pr-4 py-3.5 rounded-xl placeholder-gray-400 text-gray-800 focus:outline-none transition-all duration-200 ease-in-out sm:text-sm font-semibold shadow-inner" id="login-password" name="password" placeholder="••••••••" required type="password"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <button class="glossy-button-v2 w-full flex justify-center py-4 px-4 rounded-full text-white text-lg font-bold tracking-wide focus:outline-none transform active:scale-95 transition-all duration-150" type="submit">
+                            Sign In
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Signup Form (Hidden by default) -->
+                <form action="/signup" id="signup-form" class="mt-8 space-y-6 hidden" method="POST">
+                    <div class="space-y-6">
+                        <div>
+                            <label class="block text-sm font-bold text-[#005a8d] ml-1 mb-2 drop-shadow-sm" for="signup-username">Username</label>
+                            <div class="relative group">
+                                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none z-10">
+                                    <span class="material-icons-round text-blue-400 text-2xl group-focus-within:text-blue-600 transition-colors drop-shadow-sm">person_outline</span>
+                                </div>
+                                <input autocomplete="username" class="input-glass-v2 appearance-none block w-full pl-12 pr-4 py-3.5 rounded-xl placeholder-gray-400 text-gray-800 focus:outline-none transition-all duration-200 ease-in-out sm:text-sm font-semibold shadow-inner" id="signup-username" name="username" placeholder="Choose a username" required type="text"/>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-bold text-[#005a8d] ml-1 mb-2 drop-shadow-sm" for="signup-password">Password</label>
+                            <div class="relative group">
+                                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none z-10">
+                                    <span class="material-icons-round text-blue-400 text-2xl group-focus-within:text-blue-600 transition-colors drop-shadow-sm">lock_open</span>
+                                </div>
+                                <input autocomplete="new-password" class="input-glass-v2 appearance-none block w-full pl-12 pr-4 py-3.5 rounded-xl placeholder-gray-400 text-gray-800 focus:outline-none transition-all duration-200 ease-in-out sm:text-sm font-semibold shadow-inner" id="signup-password" name="password" placeholder="Create a password" required type="password"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <button class="glossy-button-v2 w-full flex justify-center py-4 px-4 rounded-full text-white text-lg font-bold tracking-wide focus:outline-none transform active:scale-95 transition-all duration-150" type="submit">
+                            Create Account
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Toggle Link -->
+                <p id="toggle-text" class="mt-8 text-center text-sm text-gray-600 font-semibold">
+                    Don't have an account? 
+                    <a class="font-bold text-blue-600 hover:text-blue-800 transition-colors underline decoration-2 underline-offset-2 decoration-blue-300 cursor-pointer" onclick="toggleForm()">Sign up for free</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Help Button -->
+<button class="fixed bottom-8 right-8 w-16 h-16 bg-gradient-to-b from-white to-gray-100 border-2 border-white rounded-full flex items-center justify-center text-blue-500 hover:text-blue-600 hover:scale-110 transition-all duration-300 shadow-[0_8px_20px_rgba(0,0,0,0.2)] z-50 group">
+    <div class="absolute inset-0 rounded-full bg-white opacity-0 group-hover:opacity-20 transition-opacity"></div>
+    <span class="material-icons-round text-3xl drop-shadow-sm">help_outline</span>
+</button>
+
+<script>
+function toggleForm() {
+    const loginForm = document.getElementById('login-form');
+    const signupForm = document.getElementById('signup-form');
+    const title = document.getElementById('form-title');
+    const subtitle = document.getElementById('form-subtitle');
+    const toggleText = document.getElementById('toggle-text');
+    
+    if (loginForm.classList.contains('hidden')) {
+        // Show login
+        loginForm.classList.remove('hidden');
+        signupForm.classList.add('hidden');
+        title.textContent = 'Welcome Back';
+        subtitle.textContent = 'Please enter your details to sign in.';
+        toggleText.innerHTML = 'Don\'t have an account? <a class="font-bold text-blue-600 hover:text-blue-800 transition-colors underline decoration-2 underline-offset-2 decoration-blue-300 cursor-pointer" onclick="toggleForm()">Sign up for free</a>';
+    } else {
+        // Show signup
+        loginForm.classList.add('hidden');
+        signupForm.classList.remove('hidden');
+        title.textContent = 'Create Account';
+        subtitle.textContent = 'Start your cinematic journey today.';
+        toggleText.innerHTML = 'Already have an account? <a class="font-bold text-blue-600 hover:text-blue-800 transition-colors underline decoration-2 underline-offset-2 decoration-blue-300 cursor-pointer" onclick="toggleForm()">Sign in</a>';
+    }
+}
+</script>
+
+</body>
+</html>

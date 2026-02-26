@@ -1,0 +1,12 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Run transformer pipeline",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/src/transform/transformer_pipeline.py",
+      "cwd": "${workspaceFolder}"
+    }
+  ]
+}
